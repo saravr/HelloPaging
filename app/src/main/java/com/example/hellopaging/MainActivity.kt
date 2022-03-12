@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.example.hellopaging.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private val mockServer = MockServer()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -13,10 +15,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = TestAdapter()
         binding.recyclerView.adapter = adapter
 
-        val items = Array(100) {
-            TestItem(it, "Item $it")
-        }.toMutableList()
-
+        val items = mockServer.get(0)
         adapter.submitList(items)
     }
 }
