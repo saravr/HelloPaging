@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.example.hellopaging.databinding.ItemTestBinding
 
 class TestAdapter: PagingDataAdapter<TestItem, TestViewHolder>(DiffCallback()) {
@@ -25,15 +24,3 @@ class TestAdapter: PagingDataAdapter<TestItem, TestViewHolder>(DiffCallback()) {
         }
     }
 }
-
-class TestViewHolder(private val binding: ItemTestBinding): RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(item: TestItem) {
-        binding.tvName.text = item.name
-    }
-}
-
-data class TestItem(
-    val id: Int,
-    val name: String
-)

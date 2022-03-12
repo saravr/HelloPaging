@@ -4,22 +4,24 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import java.lang.Exception
 
-class TestPagingSource(private val page: Int): PagingSource<Int, TestItem>() {
+class TestPagingSource(private val initial: String?): PagingSource<String, TestItem>() {
     private val mockServer = MockServer()
 
-    override fun getRefreshKey(state: PagingState<Int, TestItem>): Int? {
+    override fun getRefreshKey(state: PagingState<String, TestItem>): String? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
-            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+            anchorPage?.prevKey ?: anchorPage?.nextKey
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TestItem> {
-        val pageNumber = params.key ?: page
+    override suspend fun load(params: LoadParams<String>): LoadResult<String, TestItem> {
+        val page = params.key ?: initial
 
         return try {
-            val items = mockServer.get(pageNumber)
-            LoadResult.Page(items, null, pageNumber + 1)
+            val response = mockServer.get(page)
+            val items = response.items
+            val nextKey = response.next.ifEmpty { null }
+            LoadResult.Page(items, null, nextKey)
         } catch (exception: Exception) {
             LoadResult.Error(exception)
         }

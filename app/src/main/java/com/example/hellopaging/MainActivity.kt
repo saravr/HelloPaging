@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
 
         lifecycleScope.launch {
-            testViewModel.getItems(0).collect {
+            testViewModel.getItems().collect {
                 adapter.submitData(it)
             }
         }
