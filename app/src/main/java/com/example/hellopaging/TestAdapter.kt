@@ -2,12 +2,12 @@ package com.example.hellopaging
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hellopaging.databinding.ItemTestBinding
 
-class TestAdapter: ListAdapter<TestItem, TestViewHolder>(DiffCallback()) {
+class TestAdapter: PagingDataAdapter<TestItem, TestViewHolder>(DiffCallback()) {
 
     class DiffCallback: DiffUtil.ItemCallback<TestItem>() {
         override fun areItemsTheSame(oldItem: TestItem, newItem: TestItem) = oldItem.id == newItem.id
@@ -20,8 +20,9 @@ class TestAdapter: ListAdapter<TestItem, TestViewHolder>(DiffCallback()) {
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 }
 
