@@ -20,8 +20,13 @@ class MainActivity : AppCompatActivity() {
         val adapter = TestAdapter()
         binding.recyclerView.adapter = adapter
 
+        binding.srLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+
         lifecycleScope.launch {
             testViewModel.getItems().collect {
+                binding.srLayout.isRefreshing = false
                 adapter.submitData(it)
             }
         }

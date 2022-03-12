@@ -8,10 +8,10 @@ class TestPagingSource(private val initial: String?): PagingSource<String, TestI
     private val mockServer = MockServer()
 
     override fun getRefreshKey(state: PagingState<String, TestItem>): String? {
-        return state.anchorPosition?.let { anchorPosition ->
+        return null /*state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey ?: anchorPage?.nextKey
-        }
+        }*/
     }
 
     override suspend fun load(params: LoadParams<String>): LoadResult<String, TestItem> {

@@ -3,16 +3,22 @@ package com.example.hellopaging
 import kotlinx.coroutines.delay
 
 class MockServer {
+    private val seed: Int
+        get() {
+            return (System.currentTimeMillis() % 100).toInt()
+        }
 
     suspend fun get(next: String?): TestResponse {
         val items = next?.let {
             it.split(",").map { item ->
                 val id = item.trim().toIntOrNull() ?: 0
-                TestItem(id, "Item $id")
+                val rand = LongRange(1000000, 5000000).random()
+                TestItem(rand, "Item $id - $rand")
             }
         } ?: Array(PAGE_SIZE) {
             val id = it + 1
-            TestItem(id, "Item $id")
+            val rand = LongRange(1000000, 5000000).random()
+            TestItem(rand, "Item $id - $rand")
         }.toList()
 
         val nextIds = if (items.last().id <= (LIMIT - PAGE_SIZE)) {
@@ -26,7 +32,7 @@ class MockServer {
     }
 
     companion object {
-        const val PAGE_SIZE = 40
-        private const val LIMIT = 500
+        const val PAGE_SIZE = 30
+        private const val LIMIT = 1000
     }
 }

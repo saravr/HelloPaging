@@ -1,6 +1,6 @@
 package com.example.hellopaging
 
 data class TestItem(
-    val id: Int,
+    val id: Long,
     val name: String
 )
