@@ -3,9 +3,9 @@ package com.example.hellopaging
 import androidx.lifecycle.ViewModel
 
 class TestViewModel: ViewModel() {
-    private val mockServer = MockServer()
+    private val repository = TestRepository()
 
     fun getItems(page: Int): List<TestItem> {
-        return mockServer.get(page)
+        return repository.getItems(page)
     }
 }
