@@ -1,8 +1,10 @@
 package com.example.hellopaging
 
+import kotlinx.coroutines.delay
+
 class MockServer {
 
-    fun get(next: String?): TestResponse {
+    suspend fun get(next: String?): TestResponse {
         val items = next?.let {
             it.split(",").map { item ->
                 val id = item.trim().toIntOrNull() ?: 0
@@ -19,11 +21,12 @@ class MockServer {
             ""
         }
 
+        delay(LongRange(100, 800).random())
         return TestResponse(items, nextIds)
     }
 
     companion object {
-        const val PAGE_SIZE = 10
-        private const val LIMIT = 50
+        const val PAGE_SIZE = 40
+        private const val LIMIT = 500
     }
 }
