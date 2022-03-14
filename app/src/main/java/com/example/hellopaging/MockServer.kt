@@ -13,12 +13,12 @@ class MockServer {
             it.split(",").map { item ->
                 val id = item.trim().toIntOrNull() ?: 0
                 val rand = LongRange(1000000, 5000000).random()
-                TestItem(rand, "Item $id - $rand")
+                TestItem(id, "Item $id - $rand")
             }
         } ?: Array(PAGE_SIZE) {
             val id = it + 1
             val rand = LongRange(1000000, 5000000).random()
-            TestItem(rand, "Item $id - $rand")
+            TestItem(id, "Item $id - $rand")
         }.toList()
 
         val nextIds = if (items.last().id <= (LIMIT - PAGE_SIZE)) {
@@ -32,7 +32,7 @@ class MockServer {
     }
 
     companion object {
-        const val PAGE_SIZE = 30
+        const val PAGE_SIZE = 10
         private const val LIMIT = 1000
     }
 }
